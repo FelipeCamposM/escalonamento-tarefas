@@ -15,6 +15,8 @@ from typing import Callable, Iterable
 
 @dataclass(frozen=True)
 class Task:
+    """Tarefa indivisivel, com duracao e predecessoras obrigatorias."""
+
     id: str
     duration: int
     predecessors: tuple[str, ...] = ()
@@ -22,6 +24,8 @@ class Task:
 
 @dataclass(frozen=True)
 class Instance:
+    """Instancia completa da versao de decisao de P|prec|Cmax."""
+
     name: str
     machines: int
     deadline: int
@@ -30,6 +34,8 @@ class Instance:
 
 @dataclass(frozen=True)
 class Slot:
+    """Intervalo ocupado por uma tarefa em uma maquina da solucao."""
+
     task: str
     machine: int
     start: int
@@ -38,6 +44,8 @@ class Slot:
 
 @dataclass
 class Metrics:
+    """Metricas comparaveis coletadas durante a execucao de um algoritmo."""
+
     states: int = 0
     branches: int = 0
     comparisons: int = 0
@@ -52,6 +60,8 @@ class Metrics:
 
 @dataclass
 class Result:
+    """Escala produzida, acompanhada de metricas e garantia de exatidao."""
+
     algorithm: str
     schedule: list[Slot]
     metrics: Metrics = field(default_factory=Metrics)
@@ -63,6 +73,8 @@ class Result:
 
 
 def load_instance(path: str | Path) -> Instance:
+    """Carrega uma instancia JSON e rejeita entradas estruturalmente invalidas."""
+
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     instance = Instance(
         name=str(data.get("nome", Path(path).stem)),
@@ -82,6 +94,8 @@ def load_instance(path: str | Path) -> Instance:
 
 
 def validate_instance(instance: Instance) -> None:
+    """Valida parametros, referencias e aciclicidade do grafo de precedencias."""
+
     if instance.machines < 1 or instance.deadline < 0:
         raise ValueError("Maquinas deve ser positivo e prazo nao pode ser negativo")
     ids = [task.id for task in instance.tasks]
@@ -100,6 +114,8 @@ def validate_instance(instance: Instance) -> None:
 
 
 def topological_order(instance: Instance, priority: dict[str, float] | None = None) -> list[str]:
+    """Executa Kahn, usando prioridade apenas como criterio de desempate."""
+
     successors = {task.id: [] for task in instance.tasks}
     indegree = {task.id: len(task.predecessors) for task in instance.tasks}
     for task in instance.tasks:
@@ -121,6 +137,8 @@ def topological_order(instance: Instance, priority: dict[str, float] | None = No
 
 
 def graph_data(instance: Instance):
+    """Constroi indices de tarefas e listas de sucessores reutilizaveis."""
+
     task_by_id = {task.id: task for task in instance.tasks}
     successors = {task.id: [] for task in instance.tasks}
     for task in instance.tasks:
@@ -130,6 +148,8 @@ def graph_data(instance: Instance):
 
 
 def critical_path_priorities(instance: Instance) -> dict[str, int]:
+    """Calcula o maior trabalho restante de cada tarefa ate uma folha do DAG."""
+
     task_by_id, successors = graph_data(instance)
     memo: dict[str, int] = {}
 
@@ -143,12 +163,16 @@ def critical_path_priorities(instance: Instance) -> dict[str, int]:
 
 
 def lower_bound(instance: Instance) -> int:
+    """Combina limites por carga media e por caminho critico."""
+
     priorities = critical_path_priorities(instance)
     work = sum(task.duration for task in instance.tasks)
     return max(math.ceil(work / instance.machines), max(priorities.values(), default=0))
 
 
 def validate_schedule(instance: Instance, schedule: Iterable[Slot]) -> tuple[bool, list[str]]:
+    """Verifica uma escala sem confiar no algoritmo que a produziu."""
+
     slots = list(schedule)
     errors: list[str] = []
     by_task = {slot.task: slot for slot in slots}
@@ -176,6 +200,8 @@ def validate_schedule(instance: Instance, schedule: Iterable[Slot]) -> tuple[boo
 
 
 def _serial_schedule(instance: Instance, order: list[str], assignments: list[int]) -> list[Slot]:
+    """Decodifica ordem e maquinas nos primeiros inicios viaveis."""
+
     task_by_id, _ = graph_data(instance)
     machine_available = [0] * instance.machines
     finish: dict[str, int] = {}
@@ -197,6 +223,8 @@ def list_schedule(
     choose: Callable[[list[str]], str] | None = None,
     algorithm: str = "guloso_caminho_critico",
 ) -> Result:
+    """Constroi uma escala orientada a eventos a partir de uma prioridade."""
+
     metrics = Metrics()
     started = time.perf_counter()
     task_by_id, _ = graph_data(instance)
@@ -243,6 +271,8 @@ def list_schedule(
 
 
 def greedy(instance: Instance) -> Result:
+    """Aplica list scheduling com prioridade de caminho critico remanescente."""
+
     return list_schedule(instance)
 
 
@@ -273,6 +303,8 @@ def divide_and_conquer(instance: Instance) -> Result:
 
 
 def grasp(instance: Instance, iterations: int = 200, seed: int = 42, alpha: float = 0.35) -> Result:
+    """Repete construcoes gulosas aleatorizadas e preserva a melhor escala."""
+
     started = time.perf_counter()
     rng = random.Random(seed)
     critical = critical_path_priorities(instance)
@@ -299,6 +331,8 @@ def grasp(instance: Instance, iterations: int = 200, seed: int = 42, alpha: floa
 
 
 def brute_force(instance: Instance, max_tasks: int = 10) -> Result:
+    """Enumera ordens topologicas e atribuicoes de maquinas sem podas."""
+
     if len(instance.tasks) > max_tasks:
         raise ValueError(f"Forca bruta limitada a {max_tasks} tarefas")
     started = time.perf_counter()
@@ -338,6 +372,8 @@ def brute_force(instance: Instance, max_tasks: int = 10) -> Result:
 
 
 def backtracking(instance: Instance, max_tasks: int = 14) -> Result:
+    """Busca exata com branch-and-bound, incumbente e quebra de simetria."""
+
     if len(instance.tasks) > max_tasks:
         raise ValueError(f"Backtracking limitado a {max_tasks} tarefas")
     started = time.perf_counter()
@@ -497,6 +533,8 @@ ALGORITHMS = {
 
 
 def format_result(instance: Instance, result: Result) -> str:
+    """Formata uma solucao da CLI e inclui o resultado do verificador."""
+
     valid, errors = validate_schedule(instance, result.schedule)
     status = "SIM" if result.makespan <= instance.deadline else "NAO"
     lines = [
@@ -513,6 +551,8 @@ def format_result(instance: Instance, result: Result) -> str:
 
 
 def main() -> None:
+    """Processa a linha de comando e executa um ou todos os algoritmos."""
+
     parser = argparse.ArgumentParser(description="Escalonamento P|prec|Cmax")
     parser.add_argument("instancia", type=Path)
     parser.add_argument("--algoritmo", choices=[*ALGORITHMS, "todos"], default="todos")
@@ -527,4 +567,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

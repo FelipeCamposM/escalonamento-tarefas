@@ -47,6 +47,10 @@ O backtracking percorre o mesmo espaco de busca, mas corta ramos cujo *makespan*
 ### 3.3 Divisao e conquista
 
 Uma decomposicao exata generica nao e natural: uma aresta de precedencia pode atravessar a particao e todas as partes competem pelas mesmas maquinas. A implementacao, portanto, usa divisao e conquista como heuristica: ordena o DAG por prioridade de caminho critico, divide recursivamente a lista, atribui prioridades aos blocos e combina o resultado por *list scheduling*. O metodo e rapido, mas nao possui garantia de otimalidade. Essa limitacao deve ser discutida, em vez de afirmar incorretamente que os subproblemas sao independentes.
+No paradigma classico, a etapa de combinacao deve reconstruir uma solucao do
+problema original a partir dos subproblemas (CORMEN et al., 2009); neste modelo,
+as dependencias cruzadas e a competicao pelas maquinas impedem que essa
+combinacao preserve automaticamente a otimalidade.
 
 ### 3.4 Programacao dinamica
 
@@ -128,4 +132,9 @@ ZIVIANI, N. *Projeto de algoritmos com implementacoes em Java e C++*. Sao Paulo:
 
 ## Apendice A - Codigo-fonte
 
-Na versao final em PDF, inserir o conteudo integral de `src/scheduler.py`, conforme exigido pelo enunciado. Usar fonte monoespacada entre 8 e 9 pontos e quebra de linhas; nao utilizar capturas de tela do codigo.
+O arquivo `docs/RELATORIO_COM_CODIGO.md` incorpora automaticamente o conteudo
+integral de `src/scheduler.py` e `scripts/run_benchmarks.py`, conforme exigido
+pelo enunciado. Ele deve ser regenerado com `python scripts/montar_relatorio.py`
+depois de qualquer alteracao no texto ou no codigo. Na diagramacao do PDF, usar
+fonte monoespacada entre 8 e 9 pontos e quebra de linhas; nao utilizar capturas
+de tela do codigo.
