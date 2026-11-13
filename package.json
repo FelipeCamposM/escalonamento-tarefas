@@ -1,0 +1,22 @@
+{
+  "name": "apa-escalonamento-tarefas",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Laboratorio visual para o trabalho de APA sobre P|prec|Cmax",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "screenshots": "node scripts/capture-screenshots.mjs",
+    "test:web": "node --test web/tests/*.test.js",
+    "check": "npm run test:web && npm run build"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.65.0",
+    "vite": "^7.2.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

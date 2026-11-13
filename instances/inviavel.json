@@ -1,0 +1,16 @@
+{
+  "nome": "prazo_inviavel",
+  "maquinas": 2,
+  "prazo": 7,
+  "tarefas": [
+    {"id": "A", "duracao": 3, "predecessoras": []},
+    {"id": "B", "duracao": 2, "predecessoras": []},
+    {"id": "C", "duracao": 4, "predecessoras": ["A"]},
+    {"id": "D", "duracao": 2, "predecessoras": ["A"]},
+    {"id": "E", "duracao": 3, "predecessoras": ["B"]},
+    {"id": "F", "duracao": 2, "predecessoras": ["C", "D"]},
+    {"id": "G", "duracao": 2, "predecessoras": ["E"]},
+    {"id": "H", "duracao": 1, "predecessoras": ["F", "G"]}
+  ]
+}
+
