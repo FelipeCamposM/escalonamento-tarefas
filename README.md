@@ -204,6 +204,7 @@ escalonamento_tarefas/
 |---|---|
 | [Relatório acadêmico](docs/RELATORIO.md) | texto principal editável |
 | [Relatório completo com código](docs/RELATORIO_COM_CODIGO.md) | versão gerada para conversão em PDF |
+| [PDF diagramado](output/pdf/Relatorio_Escalonamento_Tarefas.pdf) | 22 páginas, com código integral e sumário |
 | [Checklist da entrega](docs/CHECKLIST_ENTREGA.md) | auditoria requisito por requisito |
 | [Roteiro da apresentação](docs/ROTEIRO_APRESENTACAO.md) | divisão sugerida para 20 minutos |
 | [Algoritmos](docs/ALGORITMOS.md) | detalhes de cada estratégia |
@@ -217,13 +218,20 @@ Depois de editar nomes ou o relatório, atualize a versão com o código anexado
 python scripts/montar_relatorio.py
 ```
 
+Para regenerar o PDF diagramado, instale as dependências opcionais e execute:
+
+```bash
+python -m pip install -r requirements-pdf.txt
+python scripts/gerar_pdf.py
+```
+
 ## Estado da entrega
 
-O software, os seis algoritmos, o benchmark, os testes, a prova de NP e a
-documentação técnica estão prontos. Antes da submissão acadêmica ainda é
-necessário preencher os nomes e matrículas dos quatro integrantes, revisar o
-texto com o grupo, converter o relatório completo em PDF e montar o pacote final
-solicitado pela disciplina. O diagnóstico detalhado está no
+O software, os seis algoritmos, o benchmark, os testes, a prova de NP, a
+documentação técnica e o PDF diagramado estão prontos. Antes da submissão
+acadêmica ainda é necessário preencher os dados dos dois integrantes restantes,
+revisar o texto com o grupo, regenerar o PDF e montar o pacote final solicitado
+pela disciplina. O diagnóstico detalhado está no
 [`CHECKLIST_ENTREGA.md`](docs/CHECKLIST_ENTREGA.md).
 
 > **Integridade acadêmica:** usem o projeto como base compreendida pelo grupo.
@@ -235,10 +243,10 @@ solicitado pela disciplina. O diagnóstico detalhado está no
 Trabalho desenvolvido por um grupo de quatro integrantes. Preencher em ordem
 alfabética antes da entrega:
 
-1. `NOME COMPLETO — MATRÍCULA`
-2. `NOME COMPLETO — MATRÍCULA`
-3. `NOME COMPLETO — MATRÍCULA`
-4. `NOME COMPLETO — MATRÍCULA`
+1. `Felipe Campos Macedo — 202501133`
+2. `Gabriel Guimarães Naves — 202503292`
+3. `DADOS DO TERCEIRO INTEGRANTE PENDENTES`
+4. `DADOS DO QUARTO INTEGRANTE PENDENTES`
 
 ---
 

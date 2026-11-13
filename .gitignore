@@ -5,4 +5,7 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 tmp/
-output/
+output/*
+!output/pdf/
+output/pdf/*
+!output/pdf/Relatorio_Escalonamento_Tarefas.pdf

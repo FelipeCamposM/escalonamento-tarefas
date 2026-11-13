@@ -37,7 +37,7 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 
 | Seção | Estado | Localização ou ação necessária |
 |---|:---:|---|
-| Integrantes em ordem alfabética e matrículas | ⛔ | substituir os quatro marcadores no início do relatório |
+| Integrantes em ordem alfabética e matrículas | ⚠️ | Felipe e Gabriel preenchidos; faltam dois integrantes exigidos pelo enunciado |
 | Introdução e descrição do problema | ✅ | seção 1 de `RELATORIO.md` |
 | Prova de que pertence a NP | ✅ | seção 2.1 |
 | Descrição das implementações | ✅ | seção 3 |
@@ -46,7 +46,7 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 | Análise dos resultados | ✅ | seção 5 e `resultados/benchmark.csv` |
 | Conclusão e dificuldades | ✅ | seção 7 |
 | Bibliografia e citações no texto | ✅ | seções 2, 3, 8 |
-| PDF final | ⛔ | gerar somente depois de preencher e revisar os dados do grupo |
+| PDF final | ⚠️ | PDF diagramado e revisado; regenerar depois de incluir os dois integrantes restantes |
 
 ## Qualidade do software
 
@@ -65,8 +65,8 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 
 ## Pontos que merecem revisão humana
 
-1. **Autores:** preencher os quatro nomes completos e matrículas em ordem
-   alfabética no relatório e no README.
+1. **Autores:** Felipe Campos Macedo e Gabriel Guimarães Naves já foram
+   preenchidos; faltam os nomes completos e matrículas de dois integrantes.
 2. **Turma e capa:** confirmar professor, instituição, disciplina, cidade, turma
    e ano que devem aparecer na versão diagramada.
 3. **Resultados:** decidir se o grupo repetirá o benchmark na máquina usada para
@@ -83,8 +83,9 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 - [ ] Receber os dados dos quatro integrantes e colocá-los em ordem alfabética.
 - [ ] Fazer uma leitura coletiva e ajustar a linguagem para refletir a autoria do grupo.
 - [ ] Executar `python scripts/montar_relatorio.py` após a última edição.
-- [ ] Diagramar `RELATORIO_COM_CODIGO.md` e gerar o PDF final.
-- [ ] Verificar visualmente todas as páginas, tabelas, quebras e código do PDF.
+- [x] Diagramar o relatório e gerar o PDF com texto e código integral.
+- [x] Verificar visualmente as 22 páginas, tabelas, quebras e código do PDF.
+- [ ] Regenerar o PDF depois de incluir os dois integrantes restantes.
 - [ ] Ensaiar o roteiro de 20 minutos com um ou dois apresentadores e presença do grupo completo.
 - [ ] Publicar o repositório remoto e confirmar a execução verde do GitHub Actions.
 - [ ] Criar o ZIP apenas depois da aprovação visual, usando o nome exigido.

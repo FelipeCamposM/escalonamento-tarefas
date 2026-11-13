@@ -18,7 +18,7 @@ SOURCES = (
         "python",
     ),
 )
-MARKER = "## Apendice A - Codigo-fonte"
+MARKER = "## Apêndice A - Código-fonte"
 
 
 def main() -> None:

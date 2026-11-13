@@ -1,0 +1,5 @@
+# Dependências opcionais usadas somente para gerar e validar o relatório em PDF.
+reportlab>=4.4,<6
+pypdf>=6,<8
+pdfplumber>=0.11,<1
+pymupdf>=1.26,<3
