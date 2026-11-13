@@ -6,10 +6,10 @@ informação do grupo.
 
 ## Resumo executivo
 
-O projeto está **tecnicamente implementado e testado**, mas ainda não deve ser
-enviado como versão final. Os bloqueios obrigatórios são: identificação dos
-quatro integrantes, revisão coletiva, geração do PDF e criação do pacote final
-no formato pedido pela disciplina.
+O projeto está **tecnicamente implementado, documentado e testado**. Felipe e
+Gabriel são os autores que efetivamente participaram. Como os outros dois
+integrantes desistiram, a situação deverá ser comunicada ao professor antes da
+entrega. O bloqueio técnico restante é a criação e conferência do pacote final.
 
 Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendente obrigatório
 
@@ -37,7 +37,7 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 
 | Seção | Estado | Localização ou ação necessária |
 |---|:---:|---|
-| Integrantes em ordem alfabética e matrículas | ⚠️ | Felipe e Gabriel preenchidos; faltam dois integrantes exigidos pelo enunciado |
+| Integrantes em ordem alfabética e matrículas | ⚠️ | os dois autores reais estão identificados; comunicar ao professor a desistência dos demais |
 | Introdução e descrição do problema | ✅ | seção 1 de `RELATORIO.md` |
 | Prova de que pertence a NP | ✅ | seção 2.1 |
 | Descrição das implementações | ✅ | seção 3 |
@@ -46,7 +46,7 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 | Análise dos resultados | ✅ | seção 5 e `resultados/benchmark.csv` |
 | Conclusão e dificuldades | ✅ | seção 7 |
 | Bibliografia e citações no texto | ✅ | seções 2, 3, 8 |
-| PDF final | ⚠️ | PDF diagramado e revisado; regenerar depois de incluir os dois integrantes restantes |
+| PDF final | ✅ | PDF diagramado e revisado com os dois autores participantes |
 
 ## Qualidade do software
 
@@ -65,8 +65,9 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 
 ## Pontos que merecem revisão humana
 
-1. **Autores:** Felipe Campos Macedo e Gabriel Guimarães Naves já foram
-   preenchidos; faltam os nomes completos e matrículas de dois integrantes.
+1. **Autores:** Felipe Campos Macedo e Gabriel Guimarães Naves são os autores
+   participantes. Não incluir nomes de pessoas que não contribuíram; registrar
+   a situação com o professor.
 2. **Turma e capa:** confirmar professor, instituição, disciplina, cidade, turma
    e ano que devem aparecer na versão diagramada.
 3. **Resultados:** decidir se o grupo repetirá o benchmark na máquina usada para
@@ -80,12 +81,11 @@ Legenda: ✅ concluído · ⚠️ requer revisão/ação do grupo · ⛔ pendent
 
 ## Sequência recomendada para finalizar
 
-- [ ] Receber os dados dos quatro integrantes e colocá-los em ordem alfabética.
+- [ ] Receber a autorização ou orientação do professor sobre a entrega em dupla.
 - [ ] Fazer uma leitura coletiva e ajustar a linguagem para refletir a autoria do grupo.
 - [ ] Executar `python scripts/montar_relatorio.py` após a última edição.
 - [x] Diagramar o relatório e gerar o PDF com texto e código integral.
 - [x] Verificar visualmente as 22 páginas, tabelas, quebras e código do PDF.
-- [ ] Regenerar o PDF depois de incluir os dois integrantes restantes.
 - [ ] Ensaiar o roteiro de 20 minutos com um ou dois apresentadores e presença do grupo completo.
 - [ ] Publicar o repositório remoto e confirmar a execução verde do GitHub Actions.
 - [ ] Criar o ZIP apenas depois da aprovação visual, usando o nome exigido.

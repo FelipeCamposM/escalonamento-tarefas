@@ -45,6 +45,12 @@ pré-gravados.
 
 Requisitos: [Node.js](https://nodejs.org/) 20 ou superior e npm.
 
+### Início rápido a partir do ZIP
+
+1. Extraia todo o conteúdo do ZIP.
+2. Abra o PowerShell ou terminal dentro da pasta extraída.
+3. Execute:
+
 ```bash
 npm install
 npm run dev
@@ -54,6 +60,18 @@ Abra **http://127.0.0.1:5173** e clique em **Gerar e executar**. Cada clique
 produz uma nova instância, com tarefas, durações, precedências, máquinas, prazo
 e semente diferentes. Para uma comparação controlada, também é possível usar
 as instâncias fixas da interface.
+
+O terminal deve permanecer aberto enquanto o site estiver sendo utilizado. Para
+encerrar o servidor, pressione `Ctrl + C`.
+
+### Clonar pelo GitHub
+
+```bash
+git clone https://github.com/FelipeCamposM/escalonamento-tarefas.git
+cd escalonamento-tarefas
+npm install
+npm run dev
+```
 
 <table>
   <tr>
@@ -183,6 +201,16 @@ python -m unittest discover -s tests -v
 npm run check
 ```
 
+### Problemas comuns
+
+| Problema | Solução |
+|---|---|
+| `npm` não é reconhecido | instalar Node.js 20 ou superior e reabrir o terminal |
+| PowerShell bloqueia `npm.ps1` | usar `npm.cmd install` e `npm.cmd run dev` |
+| `python` não é reconhecido | instalar Python 3.10 ou superior e marcar a opção de adicionar ao PATH |
+| a porta 5173 está ocupada | encerrar o servidor anterior com `Ctrl + C` e executar novamente |
+| força bruta demora ou é interrompida | usar uma instância pequena; esse comportamento é esperado pelo crescimento exponencial |
+
 ## Estrutura do repositório
 
 ```text
@@ -228,10 +256,10 @@ python scripts/gerar_pdf.py
 ## Estado da entrega
 
 O software, os seis algoritmos, o benchmark, os testes, a prova de NP, a
-documentação técnica e o PDF diagramado estão prontos. Antes da submissão
-acadêmica ainda é necessário preencher os dados dos dois integrantes restantes,
-revisar o texto com o grupo, regenerar o PDF e montar o pacote final solicitado
-pela disciplina. O diagnóstico detalhado está no
+documentação técnica e o PDF diagramado estão prontos. A entrega identifica os
+dois autores que efetivamente participaram; a situação dos outros integrantes
+será comunicada ao professor. Resta apenas montar e conferir o pacote final
+solicitado pela disciplina. O diagnóstico detalhado está no
 [`CHECKLIST_ENTREGA.md`](docs/CHECKLIST_ENTREGA.md).
 
 > **Integridade acadêmica:** usem o projeto como base compreendida pelo grupo.
@@ -240,13 +268,10 @@ pela disciplina. O diagnóstico detalhado está no
 
 ## Autores
 
-Trabalho desenvolvido por um grupo de quatro integrantes. Preencher em ordem
-alfabética antes da entrega:
+Autores que participaram do desenvolvimento, em ordem alfabética:
 
 1. `Felipe Campos Macedo — 202501133`
 2. `Gabriel Guimarães Naves — 202503292`
-3. `DADOS DO TERCEIRO INTEGRANTE PENDENTES`
-4. `DADOS DO QUARTO INTEGRANTE PENDENTES`
 
 ---
 
