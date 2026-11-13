@@ -8,8 +8,10 @@ from __future__ import annotations
 
 import html
 import re
+from functools import lru_cache
 from pathlib import Path
 
+from PIL import Image as PILImage
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import A4, landscape
@@ -17,6 +19,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.utils import ImageReader
 from reportlab.platypus import (
     BaseDocTemplate,
     Flowable,
@@ -45,15 +48,17 @@ SOURCE_FILES = (
     ("Apêndice A - Núcleo dos algoritmos", ROOT / "src" / "scheduler.py"),
     ("Apêndice B - Automação dos experimentos", ROOT / "scripts" / "run_benchmarks.py"),
 )
+UFG_LOGO = ROOT / "docs" / "assets" / "ufg-logo.png"
 
-NAVY = colors.HexColor("#0B1F33")
-BLUE = colors.HexColor("#0E7490")
-CYAN = colors.HexColor("#22D3EE")
-INK = colors.HexColor("#17202A")
-MUTED = colors.HexColor("#536273")
-LIGHT = colors.HexColor("#E8F1F5")
-PALE = colors.HexColor("#F5F8FA")
-LINE = colors.HexColor("#C9D6DE")
+# Paleta derivada da marca oficial fornecida pela UFG.
+NAVY = colors.HexColor("#1D1D1B")
+BLUE = colors.HexColor("#0075BE")
+CYAN = colors.HexColor("#4CB3E6")
+INK = colors.HexColor("#1D1D1B")
+MUTED = colors.HexColor("#4C5860")
+LIGHT = colors.HexColor("#E5F2F9")
+PALE = colors.HexColor("#F5F9FC")
+LINE = colors.HexColor("#B9D4E5")
 
 
 def register_fonts() -> tuple[str, str, str, str]:
@@ -80,6 +85,23 @@ def register_fonts() -> tuple[str, str, str, str]:
 
 
 BODY_FONT, BOLD_FONT, ITALIC_FONT, BOLD_ITALIC_FONT = register_fonts()
+
+
+@lru_cache(maxsize=1)
+def ufg_logo() -> tuple[ImageReader, float]:
+    """Remove somente o fundo preto da imagem fornecida e preserva a marca."""
+    image = PILImage.open(UFG_LOGO).convert("RGBA")
+    pixels = []
+    pixel_data = image.get_flattened_data() if hasattr(image, "get_flattened_data") else image.getdata()
+    for red, green, blue, _ in pixel_data:
+        alpha = 0 if max(red, green, blue) < 10 else 255
+        pixels.append((red, green, blue, alpha))
+    image.putdata(pixels)
+    bbox = image.getchannel("A").getbbox()
+    if bbox:
+        image = image.crop(bbox)
+    aspect = image.height / image.width
+    return ImageReader(image), aspect
 
 
 def inline_markdown(value: str) -> str:
@@ -319,13 +341,20 @@ class AcademicDocTemplate(BaseDocTemplate):
 def draw_cover_page(canvas, doc) -> None:
     canvas.saveState()
     canvas.setPageSize(A4)
-    canvas.setFillColor(NAVY)
-    canvas.rect(0, A4[1] - 1.05 * cm, A4[0], 1.05 * cm, fill=1, stroke=0)
     canvas.setFillColor(BLUE)
-    canvas.circle(A4[0] - 2.1 * cm, A4[1] - 2.35 * cm, 0.38 * cm, fill=1, stroke=0)
-    canvas.setFont(BOLD_FONT, 7.5)
-    canvas.setFillColor(colors.white)
-    canvas.drawCentredString(A4[0] - 2.1 * cm, A4[1] - 2.45 * cm, "UFG")
+    canvas.rect(0, A4[1] - 1.05 * cm, A4[0], 1.05 * cm, fill=1, stroke=0)
+    logo, aspect = ufg_logo()
+    logo_width = 1.65 * cm
+    logo_height = logo_width * aspect
+    canvas.drawImage(
+        logo,
+        A4[0] - 2.85 * cm,
+        A4[1] - 1.35 * cm - logo_height,
+        width=logo_width,
+        height=logo_height,
+        mask="auto",
+        preserveAspectRatio=True,
+    )
     canvas.setFillColor(LIGHT)
     canvas.rect(0, 0, A4[0], 0.35 * cm, fill=1, stroke=0)
     canvas.restoreState()
@@ -397,8 +426,33 @@ def cover_story() -> list[Flowable]:
     ]
 
 
+def split_markdown_row(row: str) -> list[str]:
+    """Divide uma linha de tabela sem tratar `|E|` dentro de código como coluna."""
+    content = row.strip()
+    if content.startswith("|"):
+        content = content[1:]
+    if content.endswith("|"):
+        content = content[:-1]
+    cells: list[str] = []
+    current: list[str] = []
+    inside_code = False
+    for character in content:
+        if character == "`":
+            inside_code = not inside_code
+            current.append(character)
+        elif character == "|" and not inside_code:
+            cells.append("".join(current).strip())
+            current = []
+        else:
+            current.append(character)
+    cells.append("".join(current).strip())
+    return cells
+
+
 def markdown_table(rows: list[str]) -> Table:
-    parsed = [[cell.strip() for cell in row.strip().strip("|").split("|")] for row in rows]
+    parsed = [split_markdown_row(row) for row in rows]
+    if any(len(row) != len(parsed[0]) for row in parsed):
+        raise ValueError(f"Tabela Markdown com número inconsistente de colunas: {parsed}")
     if len(parsed) > 1 and all(re.fullmatch(r":?-{3,}:?", cell) for cell in parsed[1]):
         parsed.pop(1)
     columns = len(parsed[0])
@@ -489,7 +543,7 @@ def parse_report() -> list[Flowable]:
             while index < len(lines) and lines[index].startswith("|"):
                 table_lines.append(lines[index])
                 index += 1
-            story.extend([markdown_table(table_lines), Spacer(1, 9)])
+            story.append(KeepTogether([markdown_table(table_lines), Spacer(1, 9)]))
             continue
         if re.match(r"^\d+\.\s+", line) or line.startswith("- "):
             flush_paragraph()
