@@ -13,6 +13,9 @@ try {
   await page.goto(baseUrl, { waitUntil: "networkidle" });
   await page.screenshot({ path: resolve(output, "01-visao-geral.png") });
 
+  const seedBefore = await page.locator("#seed-value").textContent();
+  await page.locator("#run-button").click();
+  await page.waitForFunction(previous => document.querySelector("#seed-value")?.textContent !== previous, seedBefore);
   await page.locator("#laboratorio").screenshot({ path: resolve(output, "02-laboratorio.png") });
 
   await page.locator("#instance-select").selectOption("inviavel");

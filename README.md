@@ -13,8 +13,10 @@ npm install
 npm run dev
 ```
 
-Acesse `http://127.0.0.1:5173`. A interface apresenta Gantt, grafo de
-precedencias, rastreio, complexidades, benchmark e prova de NP-completude.
+Acesse `http://127.0.0.1:5173`. Cada clique em **Gerar e executar** cria uma
+instancia nova, executa o algoritmo selecionado no navegador e reconstrói
+Gantt, grafo de precedencias, rastreio e metricas. A interface tambem apresenta
+o benchmark controlado e a prova de NP-completude.
 
 ## Executar os algoritmos
 
@@ -40,6 +42,7 @@ python -m unittest discover -s tests -v
 - `scripts/`: automacao do benchmark.
 - `tests/`: testes do nucleo Python.
 - `web/`: aplicacao visual servida pelo Vite.
+- `web/scheduler-live.js`: implementacao de demonstracao executada ao vivo.
 - `resultados/`: dados brutos em CSV.
 - `docs/`: relatorio e documentacao tecnica.
 - `prints/`: evidencias visuais da aplicacao executada.
@@ -64,4 +67,3 @@ python -m unittest discover -s tests -v
 Os metodos exatos sao apropriados para instancias pequenas. A divisao e
 conquista e descrita honestamente como heuristica porque precedencias entre
 particoes e maquinas compartilhadas impedem composicao independente de otimos.
-

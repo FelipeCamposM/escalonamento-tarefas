@@ -5,7 +5,7 @@
 O projeto possui dois componentes separados:
 
 1. **Nucleo cientifico em Python (`src/`)**: implementa e mede os algoritmos. E a fonte dos resultados do trabalho.
-2. **Camada de apresentacao web (`web/`)**: explica e visualiza os resultados. Nao substitui os algoritmos nem fabrica novas medidas no navegador.
+2. **Laboratorio web (`web/`)**: gera instancias e executa os seis paradigmas ao vivo no navegador. Essa versao serve para demonstracao interativa; o nucleo Python continua sendo a referencia dos experimentos do relatorio.
 
 Essa separacao impede que detalhes visuais contaminem os experimentos e permite executar os algoritmos em modo texto antes de apresentar os resultados.
 
@@ -32,7 +32,16 @@ O verificador `validate_schedule` nao confia no algoritmo produtor. Ele confirma
 
 ## Interface web
 
-A interface usa HTML semantico, CSS responsivo e JavaScript sem framework. Vite fornece o servidor de desenvolvimento, recarregamento automatico e a compilacao. Isso reduz dependencias e deixa o projeto simples de apresentar com Node.js.
+A interface usa HTML semantico, CSS responsivo e JavaScript sem framework. O
+modulo `scheduler-live.js` contem gerador pseudoaleatorio deterministico,
+verificador e seis algoritmos. Cada execucao sorteia duracoes, DAG, maquinas e
+prazo; depois valida a escala antes de renderiza-la. Vite fornece servidor,
+recarregamento automatico e compilacao.
+
+A duplicacao entre Python e JavaScript e intencional: Python preserva a base
+cientifica e o benchmark; JavaScript permite demonstracao sem depender de um
+servidor ou de Python instalado. Testes de concordancia verificam os metodos
+exatos em instancias pequenas.
 
 ## Reprodutibilidade
 
@@ -41,4 +50,3 @@ A interface usa HTML semantico, CSS responsivo e JavaScript sem framework. Vite 
 - Benchmark bruto em CSV.
 - Forca bruta limitada por tamanho.
 - Interface sem API externa e sem envio de dados.
-
